@@ -1,0 +1,25 @@
+# One-line local launch:  docker compose up --build
+#
+# Optional: set HF_TOKEN in a .env file next to this docker-compose.yml
+# if you need to pull the private SPRING Kannada checkpoint at build time.
+
+services:
+  pa-profile:
+    build:
+      context: .
+      args:
+        HF_HUB_PULL: "0"           # 1 = pull weights from Hub at build time
+        HF_TOKEN:    "${HF_TOKEN:-}"
+    image: pa-profile:local
+    container_name: pa-profile
+    ports:
+      - "7860:7860"
+    # GPU? Uncomment + install nvidia-container-toolkit on the host.
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+    restart: unless-stopped

@@ -1,0 +1,41 @@
+# Python dependencies for PA-Profile (pinned to the wav2 conda env that
+# trained / runs the system on the workstation).
+#
+# Note: Montreal Forced Aligner (MFA) is NOT in this file. MFA depends on
+# Kaldi binaries and PostgreSQL; install it via conda — see the README
+# (Installation → native install) or use the bundled Dockerfile which
+# already does this for you.
+#
+# Note: fairseq is required only for the Kannada ASR path (data2vec
+# checkpoint). It is install-fragile; if you only want the English
+# demo, you can comment it out.
+
+# -- Deep-learning runtime --
+# CPU build first; for GPU you can install the matching +cu118 wheels manually:
+#   pip install torch==2.2.2+cu118 torchaudio==2.2.2+cu118 \
+#       --extra-index-url https://download.pytorch.org/whl/cu118
+torch==2.2.2
+torchaudio==2.2.2
+transformers==4.46.3
+
+# -- Web app --
+gradio==4.44.1
+
+# -- Data wrangling --
+pandas==2.0.3
+numpy==1.24.3
+
+# -- Stage-8 learned classifier --
+scikit-learn==1.3.2
+joblib==1.4.2
+
+# -- Audio I/O --
+soundfile==0.13.1
+librosa==0.10.2.post1
+praatio==6.0.0
+
+# -- Model weight downloads --
+huggingface_hub==0.36.2
+
+# -- Kannada ASR backbone (data2vec, via fairseq) --
+fairseq==0.12.2

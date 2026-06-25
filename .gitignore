@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.gradio/
+**/.gradio/
+.venv/
+venv/
+.env
+*.log
+
+# Outputs the pipeline writes at runtime
+FinalProject/SpeechProfiling/pipeline1_baseline/runs/
+FinalProject/SpeechProfiling/Ultrasuite/pipeline1_baseline/runs/
+
+# Optional: if you do NOT want model weights tracked in git (and you'd
+# rather pull them from HF Hub at deploy time), uncomment the next line:
+models/

@@ -1,0 +1,15 @@
+# Files we don't want in the Docker image.
+__pycache__
+*.pyc
+.git
+.gradio
+**/.gradio
+.venv
+venv
+docs/*.pdf
+*.log
+
+# Models can be either committed to the image (default — easiest)
+# or pulled at build time via download_models.sh (lighter image, slower build).
+# Uncomment the next line if you want models excluded from the image:
+# models/
