@@ -41,12 +41,14 @@ RUN micromamba run -n base mfa model download acoustic english_us_arpa && \
 WORKDIR /app
 COPY --chown=$MAMBA_USER:$MAMBA_USER . /app
 
-# 6. (Optional) If models aren't committed to LFS, pull them from HF Hub
-#    at build time. Comment out if you've already committed weights.
-ARG HF_HUB_PULL=0
-ARG HF_TOKEN=""
-ENV HF_TOKEN=${HF_TOKEN}
-RUN if [ "$HF_HUB_PULL" = "1" ]; then \
+# 6. Pull model weights from HF Hub at build time (they are NOT committed to
+#    this repo). The private SPRING Kannada checkpoint needs an auth token,
+#    supplied as a Space secret named HF_TOKEN and read via a BuildKit secret
+#    mount so the token is never baked into an image layer.
+ARG HF_HUB_PULL=1
+RUN --mount=type=secret,id=HF_TOKEN,mode=0444,required=false \
+    if [ "$HF_HUB_PULL" = "1" ]; then \
+        export HF_TOKEN="$(cat /run/secrets/HF_TOKEN 2>/dev/null || true)" ; \
         micromamba run -n base bash /app/scripts/download_models.sh ; \
     fi
 
