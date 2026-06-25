@@ -39,3 +39,9 @@ huggingface_hub==0.36.2
 
 # -- Kannada ASR backbone (data2vec, via fairseq) --
 fairseq==0.12.2
+
+# -- Phonetics, evaluation & Indic text (present in the wav2 env, missing here) --
+jiwer==4.0.0               # WER/CER  (shared/evaluation.py, top-level import)
+praat-parselmouth==0.4.7   # pitch/formants/intensity  (pipeline acoustic.py)
+phonemizer==3.3.0          # G2P via espeak-ng backend  (pipeline g2p.py)
+indic-nlp-library          # Kannada text normalization (shared/text_norm.py -> indicnlp)

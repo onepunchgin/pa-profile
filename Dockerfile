@@ -26,6 +26,11 @@ RUN micromamba install -y -n base -c conda-forge \
         postgresql && \
     micromamba clean --all -y
 
+# 2b. espeak-ng — backend for the `phonemizer` G2P. Its own layer (after the
+#     heavy conda step) so the cached MFA install survives rebuilds.
+RUN apt-get update && apt-get install -y --no-install-recommends espeak-ng && \
+    rm -rf /var/lib/apt/lists/*
+
 # 3. Pure-Python deps for the demo (torch / transformers / gradio / fairseq).
 COPY --chown=$MAMBA_USER:$MAMBA_USER requirements.txt /tmp/requirements.txt
 # fairseq 0.12.2 needs omegaconf 2.0.x, whose PyPI wheels carry metadata that
