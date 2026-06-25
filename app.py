@@ -63,6 +63,24 @@ sys.path.insert(0, str(PORTABLE_ROOT))
 import gradio as gr             # noqa: E402  (must follow env setup)
 import pandas as pd             # noqa: E402
 
+# ── Work around a gradio 4.44.1 / gradio_client 1.3.0 bug: API-schema parsing
+#    chokes on boolean JSON sub-schemas (e.g. `additionalProperties: true` from
+#    dict/JSON outputs), raising "argument of type 'bool' is not iterable" during
+#    launch()'s startup self-check and killing the app. Short-circuit bools.
+import gradio_client.utils as _gcu  # noqa: E402
+_gcu_orig_jstpt = _gcu._json_schema_to_python_type
+def _gcu_json_schema_to_python_type(schema, defs=None):  # noqa: ANN001
+    if isinstance(schema, bool):
+        return "Any"
+    return _gcu_orig_jstpt(schema, defs)
+_gcu._json_schema_to_python_type = _gcu_json_schema_to_python_type
+_gcu_orig_get_type = _gcu.get_type
+def _gcu_get_type(schema):  # noqa: ANN001
+    if not isinstance(schema, dict):
+        return "Any"
+    return _gcu_orig_get_type(schema)
+_gcu.get_type = _gcu_get_type
+
 from FinalProject.SpeechProfiling.pipeline1_baseline.pipeline import (  # noqa: E402
     run_pipeline as run_pipeline_kannada,
     speech_properties_rows as kn_props,
