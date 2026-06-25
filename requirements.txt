@@ -19,7 +19,30 @@ torchaudio==2.2.2
 transformers==4.46.3
 
 # -- Web app --
+# Pin gradio's ENTIRE stack to the exact versions from the working wav2 env.
+# Previously only gradio was pinned, so the fresh build pulled newer
+# fastapi/starlette/etc. that break gradio 4.44.1's launch self-check on HF
+# Spaces ("bool not iterable" / "unhashable dict" -> bogus "localhost is not
+# accessible"). Matching wav2 exactly reproduces the environment that works.
 gradio==4.44.1
+gradio_client==1.3.0
+fastapi==0.124.4
+starlette==0.44.0
+pydantic==2.10.6
+pydantic_core==2.27.2
+anyio==4.5.2
+uvicorn==0.33.0
+jinja2==3.1.6
+MarkupSafe==2.1.5
+typer==0.20.1
+tomlkit==0.12.0
+orjson==3.10.15
+httpx==0.28.1
+websockets==12.0
+aiofiles==23.2.1
+semantic-version==2.10.0
+python-multipart==0.0.20
+pydub==0.25.1
 
 # -- Data wrangling --
 pandas==2.0.3
