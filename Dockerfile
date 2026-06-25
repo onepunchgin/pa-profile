@@ -28,7 +28,11 @@ RUN micromamba install -y -n base -c conda-forge \
 
 # 3. Pure-Python deps for the demo (torch / transformers / gradio / fairseq).
 COPY --chown=$MAMBA_USER:$MAMBA_USER requirements.txt /tmp/requirements.txt
-RUN micromamba run -n base pip install --no-cache-dir -r /tmp/requirements.txt
+# fairseq 0.12.2 needs omegaconf 2.0.x, whose PyPI wheels carry metadata that
+# pip>=24.1 rejects ("PyYAML (>=5.1.*)"), making the resolve impossible. Pin
+# pip<24.1 (+ a setuptools old enough for fairseq's source build) first.
+RUN micromamba run -n base python -m pip install "pip<24.1" "setuptools<70" wheel && \
+    micromamba run -n base pip install --no-cache-dir -r /tmp/requirements.txt
 
 # 4. Pre-download the English MFA acoustic + dictionary so the very first
 #    request doesn't pay the ~70 MB download.
