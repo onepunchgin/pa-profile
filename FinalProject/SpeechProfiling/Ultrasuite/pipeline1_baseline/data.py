@@ -21,15 +21,22 @@ Sessions:
 """
 from __future__ import annotations
 
+import os
 import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Optional
 
-UXSSD_ROOT = Path("/home/prouser1/core-uxssd/core")
-UXSSD_LEX  = Path("/home/prouser1/core-uxssd/doc/uxssd.lex")
-UXTD_ROOT  = Path("/media/csedept/lab7/core-uxtd/core")
-UXTD_LEX   = Path("/media/csedept/lab7/core-uxtd/doc/uxtd.lex")  # may not exist; fallback to uxssd.lex
+# Bundled fallback lexicon ships in the portable repo next to this module, so
+# the demo works without the workstation's /home/prouser1/core-uxssd tree.
+# The corpus ROOTs are only used by discover_uxssd() (batch dataset building),
+# never by the single-utterance demo, so their workstation defaults are fine.
+_BUNDLED_LEX = Path(__file__).resolve().parent / "lexicons" / "uxssd.lex"
+
+UXSSD_ROOT = Path(os.environ.get("PA_PROFILE_UXSSD_ROOT", "/home/prouser1/core-uxssd/core"))
+UXSSD_LEX  = Path(os.environ.get("PA_PROFILE_UXSSD_LEX", str(_BUNDLED_LEX)))
+UXTD_ROOT  = Path(os.environ.get("PA_PROFILE_UXTD_ROOT", "/media/csedept/lab7/core-uxtd/core"))
+UXTD_LEX   = Path(os.environ.get("PA_PROFILE_UXTD_LEX", str(_BUNDLED_LEX)))  # fallback to bundled uxssd.lex
 
 
 @dataclass(frozen=True)

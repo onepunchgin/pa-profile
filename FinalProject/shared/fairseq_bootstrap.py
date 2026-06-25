@@ -11,11 +11,17 @@ requested.
 """
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 
-FAIRSEQ_ROOT = Path("/home/prouser1/fairseq_inference/fairseq-0.12.2")
-DATA2VEC_USER_DIR = Path("/media/csedept/lab7/FinetunedModels/data2vec_userdir")
+# Portable: prefer env vars. HF Spaces / Docker set PA_PROFILE_DATA2VEC_USERDIR
+# to the bundled model dir (models/kannada_asr/data2vec_userdir). pip-installed
+# fairseq doesn't need FAIRSEQ_ROOT on sys.path, so a missing default is harmless.
+FAIRSEQ_ROOT = Path(os.environ.get(
+    "PA_PROFILE_FAIRSEQ_ROOT", "/home/prouser1/fairseq_inference/fairseq-0.12.2"))
+DATA2VEC_USER_DIR = Path(os.environ.get(
+    "PA_PROFILE_DATA2VEC_USERDIR", "/media/csedept/lab7/FinetunedModels/data2vec_userdir"))
 
 _BOOTSTRAPPED = False
 _USER_DIR_REGISTERED = False
