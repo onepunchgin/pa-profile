@@ -13,4 +13,7 @@ FinalProject/SpeechProfiling/Ultrasuite/pipeline1_baseline/runs/
 
 # Optional: if you do NOT want model weights tracked in git (and you'd
 # rather pull them from HF Hub at deploy time), uncomment the next line:
-models/
+# NOTE: anchored to repo root with a leading slash so it excludes the 4 GB of
+# weights at ./models/ but NOT nested dirs named models/ (e.g. the vendored
+# fairseq data2vec models under FinalProject/shared/_fairseq_examples/...).
+/models/
