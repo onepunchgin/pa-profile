@@ -285,8 +285,8 @@ If this work is useful for your research, please cite:
   title  = {PA-Profile: A Phone-Aligned Speech Profiler with a Screener-
             Agnostic Stage-8 Head — Cross-Language Validation on Kannada
             and English UltraSuite},
-  author = {<Author names>},
-  booktitle = {Interspeech 2026 Show \& Tell},
+  author = {Deepak Swaroop, Veena Thenkanidiyoor, Dileep A. D., H Muralikrishna},
+  booktitle = {SPECOM},
   year   = {2026},
 }
 ```
